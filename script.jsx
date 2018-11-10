@@ -7,7 +7,8 @@ class List extends React.Component {
 
   state = {
     list: [],
-    word: ""
+    word: "",
+    formErrors: ""
   };
 
   changeHandler(event) {
@@ -16,7 +17,13 @@ class List extends React.Component {
   }
 
   addItem() {
-    this.setState({ list: [...this.state.list, this.state.word] });
+    this.state.word.length < 5
+      ? this.setState({ formErrors: "Please enter more than 5 characters" })
+      : this.setState({
+          list: [...this.state.list, this.state.word],
+          word: ""
+        });
+    v;
   }
 
   render() {
@@ -27,6 +34,8 @@ class List extends React.Component {
       <div className="list">
         <input onChange={this.changeHandler} value={this.state.word} />
         <button onClick={this.addItem}>Add item</button>
+        {/* Using && to render Form Errors Message only if formErrors Exist */}
+        {this.state.formErrors && <h5>{this.state.formErrors}</h5> }
         <ul>
           {this.state.list.map((todo, index) => (
             <li key={index}>{todo}</li>
